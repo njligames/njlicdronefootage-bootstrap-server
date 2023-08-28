@@ -167,6 +167,10 @@ def get_item(quantity, service, size, package):
 
     return None
 
+@app.route('/')
+def hello_world():
+    return 'Hello, World!'
+
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
 
