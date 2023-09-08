@@ -10,7 +10,7 @@ from flask import Flask, redirect, request
 
 import stripe
 
-is_test = True
+is_test = False
 
 app = Flask(__name__,
             static_url_path='',
@@ -27,17 +27,6 @@ standard_package = 'Standard'
 premium_package = 'Premium'
 
 test_prices = {
-    # price_1NjtmdArNcC9EQIoRhEDtn6M	prod_OWxiNkkrN1Cw6c	Aerial Photography - Size A - Basic
-    # price_1NjtoVArNcC9EQIoIazH2aVb	prod_OWxjLHwXiBxo1I	Aerial Photography - Size B - Basic
-    # price_1NjtsmArNcC9EQIoHmpK7NRZ	prod_OWxosjxyBhO3QI	Aerial Photography - Size C - Basic
-    #
-    # price_1NjtnXArNcC9EQIoClfEjHRI	prod_OWxiICuJBrcz3e	Aerial Photography - Size A - Standard
-    # price_1NjtoxArNcC9EQIoV2O7Jgld	prod_OWxkfH4GVXqFNz	Aerial Photography - Size B - Standard
-    # price_1NjttrArNcC9EQIomdKDBxV4	prod_OWxpCKbrS4q4Pw	Aerial Photography - Size C - Standard
-    #
-    # price_1NjtnuArNcC9EQIo7KLgsEH4	prod_OWxjdtfjmpf548	Aerial Photography - Size A - Premium
-    # price_1NjtreArNcC9EQIoOTmZSycp	prod_OWxnolnOa1n44q	Aerial Photography - Size B - Premium
-    # price_1NjtuJArNcC9EQIo6aka48LO	prod_OWxpDDEPMhZ4LN	Aerial Photography - Size C - Premium
     aerial_service : {
         basic_package : {
             "1" : 'price_1NjtmdArNcC9EQIoRhEDtn6M',
@@ -55,17 +44,6 @@ test_prices = {
             "3" : 'price_1NjtuJArNcC9EQIo6aka48LO'
         }
     },
-    # price_1NfUA7ArNcC9EQIosKcP5x1E	prod_OSOyhwHtskPssu	Construction - Size A - Basic
-    # price_1Njt4rArNcC9EQIo0dZWMGIB	prod_OWwyLxpcJrSeba	Construction - Size B - Basic
-    # price_1NjtHoArNcC9EQIo8SjQH5lx	prod_OWxCfcQEjOBsfS	Construction - Size C - Basic
-    #
-    # price_1NfUARArNcC9EQIo8fvzF4q9	prod_OSOyYherLST7v6	Construction - Size A - Standard
-    # price_1NjtGEArNcC9EQIoBbpK9q87	prod_OWxALHYsGVtrBJ	Construction - Size B - Standard
-    # price_1NjtIqArNcC9EQIoNBrn05bJ	prod_OWxD38YvInZ7nI	Construction - Size C - Standard
-    #
-    # price_1NfUArArNcC9EQIoPBnXN6qS	prod_OSOyp2earCJ6jV	Construction - Size A - Premium
-    # price_1NjtGsArNcC9EQIoIXj2jhvn	prod_OWxBDgAHzAMrJy	Construction - Size B - Premium
-    # price_1NjtJPArNcC9EQIo9YZgiVcs	prod_OWxDzFQd90Xzwk	Construction - Size C - Premium
     construction_service : {
         basic_package : {
             "1" : 'price_1NfUA7ArNcC9EQIosKcP5x1E',
@@ -83,26 +61,6 @@ test_prices = {
             "3" : 'price_1NjtJPArNcC9EQIo9YZgiVcs'
         }
     },
-    # price_1NjtVRArNcC9EQIoCst4phSW	prod_OWxQWDpihyvy2S	Real Estate - Size A - Basic
-    # price_1NjtXHArNcC9EQIodKBCuFPw	prod_OWxSTU20GoVaI1	Real Estate - Size B - Basic
-    # price_1NjtZZArNcC9EQIoB7jN3dfl	prod_OWxUgdHwm6IQ2B	Real Estate - Size C - Basic
-    # price_1NjtcEArNcC9EQIov6bUtSqc	prod_OWxXkYXF2qBfJ4	Real Estate - Size D - Basic
-    # price_1NjtdpArNcC9EQIoCpKT6L63	prod_OWxY9b84y0dRJs	Real Estate - Size E - Basic
-    # price_1NjtgoArNcC9EQIoXUnH1mAq	prod_OWxcju1xhloHTL	Real Estate - Size F - Basic
-    #
-    # price_1NjtVuArNcC9EQIoesFiqEdS	prod_OWxQmVJi6MMyuy	Real Estate - Size A - Standard
-    # price_1NjtXuArNcC9EQIoN20BNDub	prod_OWxS0zJTck10sM	Real Estate - Size B - Standard
-    # price_1NjtaXArNcC9EQIo9zTUJAVo	prod_OWxV5kZMSZzF3n	Real Estate - Size C - Standard
-    # price_1NjtcrArNcC9EQIoll88TN6T	prod_OWxXW9tfc6Zo9F	Real Estate - Size D - Standard
-    # price_1NjtfEArNcC9EQIouBX0iHef	prod_OWxa5j1lWS5Qc7	Real Estate - Size E - Standard
-    # price_1NjthKArNcC9EQIoNgFcmSal	prod_OWxcKA5oa6mWPX	Real Estate - Size F - Standard
-    #
-    # price_1NjtWNArNcC9EQIo1Lyys1if	prod_OWxROgQjrHEnON	Real Estate - Size A - Premium
-    # price_1NjtYXArNcC9EQIoSGFtr67O	prod_OWxTyt341s8wWv	Real Estate - Size B - Premium
-    # price_1Njtb7ArNcC9EQIoutVZyJw0	prod_OWxWUEj24Dhnms	Real Estate - Size C - Premium
-    # price_1NjtdHArNcC9EQIovxqSidzA	prod_OWxYeJaPGJ4oL9	Real Estate - Size D - Premium
-    # price_1NjtgFArNcC9EQIo157h4Rjc	prod_OWxbG8znF0S7vU	Real Estate - Size E - Premium
-    # price_1Njti9ArNcC9EQIov3Oytb9u	prod_OWxdcu8scT2Eno	Real Estate - Size F - Premium
     real_estate_service : {
         basic_package : {
             "1" : 'price_1NjtVRArNcC9EQIoCst4phSW',
@@ -131,14 +89,77 @@ test_prices = {
     },
 }
 
+live_prices = {
+    aerial_service : {
+        basic_package : {
+            "1" : 'price_1No8JOArNcC9EQIoIG4dCx6g',
+            "2" : 'price_1No8IyArNcC9EQIoW9C4EzYM',
+            "3" : 'price_1No8HlArNcC9EQIo4JVtkT7i'
+        },
+        standard_package : {
+            "1" : 'price_1No8JIArNcC9EQIooy0e6qyq',
+            "2" : 'price_1No8IqArNcC9EQIoZNsrpydk',
+            "3" : 'price_1No8HQArNcC9EQIohYk945o5'
+        },
+        premium_package : {
+            "1" : 'price_1No8J7ArNcC9EQIoazRuoqX7',
+            "2" : 'price_1No8IiArNcC9EQIoqSEca6cp',
+            "3" : 'price_1No8H9ArNcC9EQIon48bhnvU'
+        }
+    },
+    construction_service : {
+        basic_package : {
+            "1" : 'price_1No8PqArNcC9EQIocmZhRxla',
+            "2" : 'price_1No8PLArNcC9EQIo3VH1jj7Y',
+            "3" : 'price_1No8OaArNcC9EQIoibYDguIb'
+        },
+        standard_package : {
+            "1" : 'price_1No8PgArNcC9EQIo9eTwf4G3',
+            "2" : 'price_1No8P8ArNcC9EQIoeh4qODoC',
+            "3" : 'price_1No8OMArNcC9EQIo6qQ0DCtr'
+        },
+        premium_package : {
+            "1" : 'price_1No8PXArNcC9EQIoHrnfvYrb',
+            "2" : 'price_1No8OuArNcC9EQIoSYFZ7amX',
+            "3" : 'price_1No8O5ArNcC9EQIoRKrM6KwU'
+        }
+    },
+    real_estate_service : {
+        basic_package : {
+            "1" : 'price_1No8N3ArNcC9EQIoncoq39Ko',
+            "2" : 'price_1No8MSArNcC9EQIoJlXY0SoR',
+            "3" : 'price_1No8LiArNcC9EQIoU5mgfI4Y',
+            "4" : 'price_1No8L3ArNcC9EQIozEUAAZTP',
+            "5" : 'price_1No8KGArNcC9EQIolaPFBi5k',
+            "6" : 'price_1No8JoArNcC9EQIoBItCNEz4'
+        },
+        standard_package : {
+            "1" : 'price_1No8MrArNcC9EQIoiVvItTDf',
+            "2" : 'price_1No8MHArNcC9EQIoUcL8IQsy',
+            "3" : 'price_1No8LPArNcC9EQIoyiRmD2tQ',
+            "4" : 'price_1No8KqArNcC9EQIoXtLgLTs4',
+            "5" : 'price_1No8K6ArNcC9EQIorzjQBRyd',
+            "6" : 'price_1No8JhArNcC9EQIoKGW1mg9i'
+        },
+        premium_package : {
+            "1" : 'price_1No8MhArNcC9EQIo8KDJ2Azr',
+            "2" : 'price_1No8LzArNcC9EQIoEDes2hBU',
+            "3" : 'price_1No8LFArNcC9EQIoiu41PXpR',
+            "4" : 'price_1No8KXArNcC9EQIoAptLRBs7',
+            "5" : 'price_1No8JxArNcC9EQIooVVqgcvz',
+            "6" : 'price_1No8JaArNcC9EQIoZ5v63ww8'
+        }
+    },
+}
+
 if is_test:
     # This is your test secret API key.
     stripe.api_key = 'sk_test_51Nf6gzArNcC9EQIodukPjdNFlC41NJW2o1lupjvp48BAgkJtoLlzEEhrW1GeYcdTBPHvmqi6Rf3XeHBLNaDnPv5U0023xHLljU'
     the_prices = test_prices
 else:
     # This is your test secret API key.
-    stripe.api_key = 'sk_test_51Nf6gzArNcC9EQIodukPjdNFlC41NJW2o1lupjvp48BAgkJtoLlzEEhrW1GeYcdTBPHvmqi6Rf3XeHBLNaDnPv5U0023xHLljU'
-    the_prices = test_prices
+    stripe.api_key = 'pk_live_51Nf6gzArNcC9EQIoz3huhKJVEusTZtDvB6i8tVnMDyXZczJkt7Z6RsLhJdfNoz5luxNeKtCv3QahUBJEuCH8H05D008Yvqh3Ls'
+    the_prices = live_prices
 
 def get_item(quantity, service, size, package):
 
