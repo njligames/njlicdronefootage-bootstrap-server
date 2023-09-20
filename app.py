@@ -152,14 +152,18 @@ live_prices = {
     },
 }
 
+# This is your test secret API key.
+key = os.environ["STRIPE_SECRET_KEY_LIVE"]
+the_prices = live_prices
+
 if is_test:
     # This is your test secret API key.
-    stripe.ap.key = os.environ["STRIPE_SECRET_KEY_TEST"]
+    key = os.environ["STRIPE_SECRET_KEY_TEST"]
     the_prices = test_prices
-else:
-    # This is your test secret API key.
-    stripe.ap.key = os.environ["STRIPE_SECRET_KEY_LIVE"]
-    the_prices = live_prices
+
+print("THE KEY", key)
+
+stripe.api_key = key
 
 def get_item(quantity, service, size, package):
 
